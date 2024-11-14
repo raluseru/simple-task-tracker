@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-
 import styled from "styled-components";
+import TaskList from "./components/Tasks/TaskList";
 import AddTask from "./components/Tasks/AddTask";
 import { TaskType, PriorityType } from "./types";
 
@@ -35,6 +35,21 @@ const App: React.FC = () => {
       setPriority(PriorityType.Low);
     }
   };
+
+  // Update task title and description
+  const updateTask = (id: number, newTitle: string, newDescription: string) => {
+    const updatedTasks = tasks.map((task) =>
+      task.id === id ? { ...task, title: newTitle, description: newDescription } : task
+    );
+    setTasks(updatedTasks);
+  };
+
+  // Delete a task
+  const deleteTask = (id: number) => {
+    const updatedTasks = tasks.filter((task) => task.id !== id);
+    setTasks(updatedTasks);
+  };
+
   return (
     <AppContainer>
       <h1>Task List Exercise</h1>
@@ -48,13 +63,12 @@ const App: React.FC = () => {
         onPriorityChange={setPriority}
         onSubmitForm={addTask}
       />
-      {tasks.map((task, index) => (
-        <ul data-index={index}>
-          <li>{task.title}</li>
-          <li>{task.description}</li>
-          <li>{task.priority}</li>
-        </ul>
-      ))}
+      {/* Display task list */}
+      <TaskList
+        tasks={tasks}
+        updateTask={updateTask}
+        deleteTask={deleteTask}
+      />
     </AppContainer>
   );
 }

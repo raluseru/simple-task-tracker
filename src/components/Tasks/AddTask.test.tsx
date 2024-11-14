@@ -22,12 +22,18 @@ test('Renders Add a task component', () => {
 
 });
 test("Calls onChange when a priority option is selected", () => {
+  const mockOnChangeTitle = jest.fn();
+  const mockOnChangeDesc = jest.fn();
   const mockOnChangePriority = jest.fn();
+  const mockOnAdd = jest.fn();
   render(<AddTask
     title="task 1"
     description="task 1 desc"
     priority={PriorityType.Medium}
+    onNameChange={mockOnChangeTitle}
+    onDescriptionChange={mockOnChangeDesc}
     onPriorityChange={mockOnChangePriority}
+    onSubmitForm={mockOnAdd}
   />);
 
   // Simulate a change in the filter select
