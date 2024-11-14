@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import TaskList from "./components/Tasks/TaskList";
 import AddTask from "./components/Tasks/AddTask";
@@ -17,7 +17,29 @@ const App: React.FC = () => {
   const [newDescription, setNewDescription] = useState<string>("");
   const [priority, setPriority] = useState<PriorityType>(PriorityType.Low);
 
+  // Load tasks from localStorage on initial render
+  const loadTasksFromLocalStorage = () => {
+    const savedTasks = localStorage.getItem("tasks");
+    if (savedTasks && savedTasks.length) {
+      return JSON.parse(savedTasks).map((task: any) => ({
+        ...task,
+        priority: Number(task.priority) as PriorityType,
+      }));
+    }
+    return [];
+  };
 
+  useEffect(() => {
+    const tasksFromLocalStorage = loadTasksFromLocalStorage();
+    setTasks(tasksFromLocalStorage);
+  }, []);
+
+  // Save tasks to localStorage
+  useEffect(() => {
+    if (tasks.length > 0) {
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
+  }, [tasks]);
   // Add a new task
   const addTask = (e: React.FormEvent) => {
     e.preventDefault();
