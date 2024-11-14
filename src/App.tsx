@@ -4,7 +4,7 @@ import TaskList from "components/Tasks/TaskList/TaskList";
 import AddTask from "components/Tasks/AddTask/AddTask";
 import Filter from "components/Filter/Filter";
 import { TaskType, PriorityType } from "./types";
-
+import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 const AppContainer = styled.div`
   max-width: 500px;
   margin: 50px auto;
@@ -102,6 +102,18 @@ const App: React.FC = () => {
     })
   }, [tasks, query, filter]);
 
+  const onDragEnd = (result: DropResult) => {
+    const { source, destination } = result;
+
+    if (!destination) return;
+
+    // Set new order
+    const reorderedTasks = Array.from(filteredTasks);
+    const [removedTask] = reorderedTasks.splice(source.index, 1);
+    reorderedTasks.splice(destination.index, 0, removedTask);
+    setTasks(reorderedTasks);
+  };
+
   return (
     <AppContainer>
       <h1>Task List Exercise</h1>
@@ -126,11 +138,9 @@ const App: React.FC = () => {
         type="search"
       />
       {/* Display task list */}
-      <TaskList
-        tasks={filteredTasks}
-        updateTask={updateTask}
-        deleteTask={deleteTask}
-      />
+      <DragDropContext onDragEnd={onDragEnd}>
+        <TaskList tasks={filteredTasks} updateTask={updateTask} deleteTask={deleteTask} />
+      </DragDropContext>
     </AppContainer>
   );
 }
