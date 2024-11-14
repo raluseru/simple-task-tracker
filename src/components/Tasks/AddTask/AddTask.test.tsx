@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import AddTask from './AddTask';
-import { PriorityType } from "../../types";
+import { PriorityType } from "../../../types";
 
 test('Renders Add a task component', () => {
   const mockOnChangeTitle = jest.fn();

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { PriorityType } from "../../types";
+import { PriorityType } from "types";
 
 interface AddTaskProps {
   title: string;

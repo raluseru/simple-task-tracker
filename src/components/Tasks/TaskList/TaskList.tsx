@@ -1,7 +1,7 @@
 import React from "react";
 import Task from "./Task";
 import styled from "styled-components";
-import { TaskType } from "../../types";
+import { TaskType } from "types";
 
 const TaskListContainer = styled.div`
   margin-top: 20px;

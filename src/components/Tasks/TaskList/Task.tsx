@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
-import { TaskType, PriorityType } from "../../types";
+import { TaskType, PriorityType } from "types";
 
 const TaskContainer = styled.div<{ $priority: PriorityType }>`
   display: flex;

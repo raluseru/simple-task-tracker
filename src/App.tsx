@@ -1,8 +1,8 @@
 import React, { useMemo, useState, useEffect } from "react";
 import styled from "styled-components";
-import TaskList from "./components/Tasks/TaskList";
-import AddTask from "./components/Tasks/AddTask";
-import Filter from "./components/Filter/Filter";
+import TaskList from "components/Tasks/TaskList/TaskList";
+import AddTask from "components/Tasks/AddTask/AddTask";
+import Filter from "components/Filter/Filter";
 import { TaskType, PriorityType } from "./types";
 
 const AppContainer = styled.div`
