@@ -12,12 +12,23 @@ const AppContainer = styled.div`
   border-radius: 16px;
   background-color: #f4f4f4;
 `;
+const Input = styled.input`
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 10px;
+`;
+const Label = styled.label`
+  margin-right: 5px;
+`;
 const App: React.FC = () => {
   const [tasks, setTasks] = useState<TaskType[]>([]);
   const [newTitle, setNewTitle] = useState<string>("");
   const [newDescription, setNewDescription] = useState<string>("");
   const [priority, setPriority] = useState<PriorityType>(PriorityType.Low);
   const [filter, setFilter] = useState<"all" | PriorityType.Low | PriorityType.Medium | PriorityType.High>("all");
+  const [query, setQuery] = useState("")
 
   // Load tasks from localStorage on initial render
   const loadTasksFromLocalStorage = () => {
@@ -77,12 +88,19 @@ const App: React.FC = () => {
   // Filter tasks based on priority
   const filteredTasks = useMemo(() => {
     return tasks.filter((task) => {
-
-      if (filter === "all") return true
-      else return task.priority === Number(filter)
-
+      if (query.length) {
+        // check if the query is found in the task title or description
+        let taskShouldDisplay = task.title.toLowerCase().includes(query.toLowerCase()) || task.description.toLowerCase().includes(query.toLowerCase())
+        if (filter === "all") {
+          return taskShouldDisplay
+        }
+        else return taskShouldDisplay && task.priority === Number(filter)
+      } else {
+        if (filter === "all") return true
+        else return task.priority === Number(filter)
+      }
     })
-  }, [tasks, filter]);
+  }, [tasks, query, filter]);
 
   return (
     <AppContainer>
@@ -99,6 +117,14 @@ const App: React.FC = () => {
       />
       {/* Priority Filter */}
       <Filter filter={filter} onChange={setFilter} />
+
+      {/* Add a search Filter */}
+      <Label>Search:</Label>
+      <Input
+        value={query}
+        onChange={e => setQuery(e.target.value)}
+        type="search"
+      />
       {/* Display task list */}
       <TaskList
         tasks={filteredTasks}
