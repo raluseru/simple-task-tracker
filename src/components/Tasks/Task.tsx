@@ -42,25 +42,26 @@ const TaskDescription = styled.span`
 
 const PriorityLabel = styled.span<{ priority: PriorityType }>`
   margin-left: 8px;
-  font-size: 12px;
-  color: #999;
-  font-weight: bold;
-  text-transform: capitalize;
+  font-size: 10px;
+  color: #fff;
+  padding:4px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
 
   ${(props) =>
     props.priority === PriorityType.Low &&
     css`
-      color: rgb(84, 140, 47);
+      background-color: rgb(84, 140, 47);
     `}
   ${(props) =>
     props.priority === PriorityType.Medium &&
     css`
-      color: rgb(233, 217, 133);
+    background-color: rgb(233, 217, 133);
     `}
   ${(props) =>
     props.priority === PriorityType.High &&
     css`
-      color: rgb(204, 68, 75);
+    background-color: rgb(204, 68, 75);
     `}
 `;
 
@@ -121,13 +122,12 @@ const Task: React.FC<TaskProps> = ({ task, updateTask, deleteTask }) => {
       ) : (
         <>
           <TaskTitleWrapper>
-
             <TaskText>{task.title}</TaskText>
             <TaskDescription>{task.description}</TaskDescription>
+            <PriorityLabel priority={task.priority}>
+              {PriorityType[task.priority]}
+            </PriorityLabel>
           </TaskTitleWrapper>
-          <PriorityLabel priority={task.priority}>
-            {PriorityType[task.priority]}
-          </PriorityLabel>
           <Button color="#504B43" onClick={() => setEditing(true)}>
             Edit
           </Button>
