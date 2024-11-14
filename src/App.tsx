@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import styled from "styled-components";
 import TaskList from "./components/Tasks/TaskList";
 import AddTask from "./components/Tasks/AddTask";
+import Filter from "./components/Filter/Filter";
 import { TaskType, PriorityType } from "./types";
 
 const AppContainer = styled.div`
@@ -16,6 +17,7 @@ const App: React.FC = () => {
   const [newTitle, setNewTitle] = useState<string>("");
   const [newDescription, setNewDescription] = useState<string>("");
   const [priority, setPriority] = useState<PriorityType>(PriorityType.Low);
+  const [filter, setFilter] = useState<"all" | PriorityType.Low | PriorityType.Medium | PriorityType.High>("all");
 
   // Load tasks from localStorage on initial render
   const loadTasksFromLocalStorage = () => {
@@ -72,6 +74,16 @@ const App: React.FC = () => {
     setTasks(updatedTasks);
   };
 
+  // Filter tasks based on priority
+  const filteredTasks = useMemo(() => {
+    return tasks.filter((task) => {
+
+      if (filter === "all") return true
+      else return task.priority === Number(filter)
+
+    })
+  }, [tasks, filter]);
+
   return (
     <AppContainer>
       <h1>Task List Exercise</h1>
@@ -85,9 +97,11 @@ const App: React.FC = () => {
         onPriorityChange={setPriority}
         onSubmitForm={addTask}
       />
+      {/* Priority Filter */}
+      <Filter filter={filter} onChange={setFilter} />
       {/* Display task list */}
       <TaskList
-        tasks={tasks}
+        tasks={filteredTasks}
         updateTask={updateTask}
         deleteTask={deleteTask}
       />
