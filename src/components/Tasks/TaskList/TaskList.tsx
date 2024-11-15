@@ -7,7 +7,6 @@ const TaskListContainer = styled.div`
 display: flex;
 flex-wrap: wrap;
 background-color: #f4f4f4;
-justify-content: center;
 padding: 20px 0;
 border-radius: 8px;
 `;

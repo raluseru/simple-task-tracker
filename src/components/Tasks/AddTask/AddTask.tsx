@@ -21,6 +21,9 @@ border-radius: 4px;
 margin-bottom: 10px;
 font-family: inherit;
 font-size: 12px;
+max-width: 320px;
+width: 100%;
+resize: vertical; 
 `;
 
 const Input = styled.input`
@@ -59,8 +62,8 @@ const AddTask: React.FC = () => {
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState<PriorityType>(PriorityType.Low);
   const handleAddTask = () => {
-    if (!title.trim() || !description.trim()) {
-      alert("Title and description are required.")
+    if (!title.trim() && !description.trim()) {
+      // don't do anything if no title and no description
       return
     }
 
