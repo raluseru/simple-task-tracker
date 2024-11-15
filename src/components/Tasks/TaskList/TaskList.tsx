@@ -5,7 +5,12 @@ import { TaskType } from "types";
 import { Draggable, Droppable } from 'react-beautiful-dnd'
 
 const TaskListContainer = styled.div`
-  margin-top: 20px;
+display: flex;
+flex-wrap: wrap;
+background-color: #f4f4f4;
+justify-content: center;
+padding: 20px 0;
+border-radius: 8px;
 `;
 
 interface TaskListProps {

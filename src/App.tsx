@@ -6,21 +6,44 @@ import Filter from "components/Filter/Filter";
 import { TaskType, PriorityType } from "./types";
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 const AppContainer = styled.div`
-  max-width: 500px;
+  max-width: 780px;
   margin: 50px auto;
-  padding: 20px;
-  border-radius: 16px;
-  background-color: #f4f4f4;
+  @media screen (min-width: 1400px) {
+    max-width: 1280px;
+  }
+`;
+const PageContainer = styled.div`
+  display: flex;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+`;
+const Sidebar = styled.div`
+  display:flex;
+  flex-direction:column;
+  padding: 8px;
+  margin-right: 20px;
+  max-width: 300px;
+`;
+const ContentWrapper = styled.div`
+width: calc(100% - 300px);
+@media (max-width: 768px) {
+  width: 100%;
+}
+`;
+const SearchWrapper = styled.div`
+display:flex;
+flex-direction:column;
+margin-bottom: 20px;
 `;
 const Input = styled.input`
-  flex: 1;
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  margin-bottom: 10px;
+
 `;
 const Label = styled.label`
-  margin-right: 5px;
+  margin-bottom: 5px;
 `;
 const App: React.FC = () => {
   const [tasks, setTasks] = useState<TaskType[]>([]);
@@ -56,7 +79,7 @@ const App: React.FC = () => {
   // Add a new task
   const addTask = (e: React.FormEvent) => {
     e.preventDefault();
-    if (newTitle.trim() && newDescription.trim()) {
+    if (newTitle.trim()) {
       const newTask: TaskType = {
         id: Date.now(),
         title: newTitle,
@@ -117,30 +140,39 @@ const App: React.FC = () => {
   return (
     <AppContainer>
       <h1>Task List Exercise</h1>
-      {/* Add Task */}
-      <AddTask
-        title={newTitle}
-        description={newDescription}
-        priority={priority}
-        onNameChange={setNewTitle}
-        onDescriptionChange={setNewDescription}
-        onPriorityChange={setPriority}
-        onSubmitForm={addTask}
-      />
-      {/* Priority Filter */}
-      <Filter filter={filter} onChange={setFilter} />
+      <PageContainer>
+        <Sidebar>
+          {/* Priority Filter */}
+          <Filter filter={filter} onChange={setFilter} />
 
-      {/* Add a search Filter */}
-      <Label>Search:</Label>
-      <Input
-        value={query}
-        onChange={e => setQuery(e.target.value)}
-        type="search"
-      />
-      {/* Display task list */}
-      <DragDropContext onDragEnd={onDragEnd}>
-        <TaskList tasks={filteredTasks} updateTask={updateTask} deleteTask={deleteTask} />
-      </DragDropContext>
+          {/* Add a search Filter */}
+          <SearchWrapper>
+            <Label>Search:</Label>
+            <Input
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              type="search"
+            />
+          </SearchWrapper>
+
+          {/* Add Task */}
+          <AddTask
+            title={newTitle}
+            description={newDescription}
+            priority={priority}
+            onNameChange={setNewTitle}
+            onDescriptionChange={setNewDescription}
+            onPriorityChange={setPriority}
+            onSubmitForm={addTask}
+          />
+        </Sidebar>
+        <ContentWrapper>
+          {/* Display task list */}
+          <DragDropContext onDragEnd={onDragEnd}>
+            <TaskList tasks={filteredTasks} updateTask={updateTask} deleteTask={deleteTask} />
+          </DragDropContext>
+        </ContentWrapper>
+      </PageContainer>
     </AppContainer>
   );
 }

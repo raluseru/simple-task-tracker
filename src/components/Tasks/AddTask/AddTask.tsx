@@ -4,7 +4,7 @@ import { PriorityType } from "types";
 
 interface AddTaskProps {
   title: string;
-  description: string,
+  description?: string,
   priority: PriorityType.Low | PriorityType.Medium | PriorityType.High,
   onNameChange: (title: string) => void,
   onDescriptionChange: (description: string) => void,
@@ -16,6 +16,20 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   margin-bottom: 30px;
+  padding: 20px;
+  border-radius: 16px;
+  background-color: #f4f4f4;
+  max-width: 300px;
+`;
+
+const TaskInputDescription = styled.textarea`
+flex: 1;
+padding: 8px;
+border: 1px solid #ddd;
+border-radius: 4px;
+margin-bottom: 10px;
+font-family: inherit;
+font-size: 12px;
 `;
 
 const Input = styled.input`
@@ -58,8 +72,7 @@ const AddTask: React.FC<AddTaskProps> = ({ title, description, priority, onNameC
         onChange={(e) => onNameChange(e.target.value)}
         placeholder="Task Title"
       />
-      <Input
-        type="text"
+      <TaskInputDescription
         value={description}
         onChange={(e) => onDescriptionChange(e.target.value)}
         placeholder="Task Description"
@@ -68,9 +81,9 @@ const AddTask: React.FC<AddTaskProps> = ({ title, description, priority, onNameC
         value={priority}
         onChange={(e) => onPriorityChange(Number(e.target.value) as PriorityType)}
       >
-        <option value={PriorityType.Low}>Low</option>
-        <option value={PriorityType.Medium}>Medium</option>
-        <option value={PriorityType.High}>High</option>
+        <option value={PriorityType.Low}>Low priority</option>
+        <option value={PriorityType.Medium}>Medium priority</option>
+        <option value={PriorityType.High}>High priority</option>
       </Select>
       <Button type="submit">Add Task</Button>
     </Form>

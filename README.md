@@ -8,6 +8,7 @@ The project structure contains an assets and a components folder. In the compone
 All reusable types are found in the src folder > types.ts.  
 Rules for eslint are to be added in root > eslintrc.json.
 
+I used a palette generated with [https://coolors.co](https://coolors.co)
 ## Available Scripts
 
 In the project directory, you can run:
