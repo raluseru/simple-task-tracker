@@ -7,9 +7,11 @@ const TaskContainer = styled.div<{ $priority: PriorityType }>`
   max-width: 200px;
   min-height: 220px;
   max-height: 220px;
-  overflow: auto;
+  overflow-y: auto;
+display: flex;
+flex-direction: column;
   margin-bottom: 10px;
-  margin-right:10px;
+  margin-left:10px;
   padding: 10px 5px;
   border-radius: 16px;
   background-color: #fff;
@@ -51,6 +53,7 @@ const TaskText = styled.div`
 
 const TaskDescription = styled.span`
   font-size: 12px;
+  word-wrap: break-word;
 `;
 
 const PriorityLabel = styled.span<{ priority: PriorityType }>`
@@ -79,10 +82,11 @@ const PriorityLabel = styled.span<{ priority: PriorityType }>`
 `;
 
 const TaskInput = styled.input`
-  flex: 1;
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
+  max-height: 42px;
+  margin-bottom: 10px;
 `;
 
 const TaskInputDescription = styled.textarea`
@@ -93,6 +97,9 @@ border-radius: 4px;
 margin-bottom: 20px;
 font-family: inherit;
 font-size: 12px;
+
+width: 100%;
+resize: vertical; 
 `;
 
 const Button = styled.button<{ color: string; }>`
