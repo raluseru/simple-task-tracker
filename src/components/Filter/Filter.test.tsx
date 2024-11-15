@@ -6,7 +6,7 @@ describe("Filter Component", () => {
 
         const mockOnChange = jest.fn();
 
-        render(<Filter filter="all" onChange={mockOnChange} />);
+        render(<Filter onChange={mockOnChange} />);
 
         // Check that the component is displayed with all elements
         expect(screen.getByText("Filter by Priority:")).toBeInTheDocument();
@@ -19,7 +19,7 @@ describe("Filter Component", () => {
 
     test("calls onChange when a filter option is selected", () => {
         const mockOnChange = jest.fn();
-        render(<Filter filter="all" onChange={mockOnChange} />);
+        render(<Filter onChange={mockOnChange} />);
 
         // Simulate a change in the filter select
         fireEvent.change(screen.getByRole("combobox"), {

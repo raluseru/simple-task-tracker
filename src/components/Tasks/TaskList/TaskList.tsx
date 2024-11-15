@@ -1,20 +1,19 @@
 import React from "react";
 import Task from "./Task";
 import styled from "styled-components";
-import { TaskType } from "types";
 import { Draggable, Droppable } from 'react-beautiful-dnd'
-
+import { useTaskContext } from "../../../context/TaskContext";
 const TaskListContainer = styled.div`
-  margin-top: 20px;
+display: flex;
+flex-wrap: wrap;
+background-color: #f4f4f4;
+justify-content: center;
+padding: 20px 0;
+border-radius: 8px;
 `;
 
-interface TaskListProps {
-    tasks: TaskType[];
-    updateTask: (id: number, newTitle: string, newDescription: string) => void;
-    deleteTask: (id: number) => void;
-}
-
-const TaskList: React.FC<TaskListProps> = ({ tasks, updateTask, deleteTask }) => {
+const TaskList: React.FC = () => {
+    const { filteredTasks, deleteTask, updateTask } = useTaskContext();
     return (
         <Droppable droppableId="taskList">
             {(provided) => (
@@ -22,7 +21,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, updateTask, deleteTask }) =>
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                 >
-                    {tasks.map((task, index) => (
+                    {filteredTasks.map((task, index) => (
                         <Draggable key={task.id} draggableId={`${task.id}`} index={index}>
                             {(provided) => (
                                 <div

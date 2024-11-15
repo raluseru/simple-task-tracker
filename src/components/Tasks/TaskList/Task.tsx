@@ -3,13 +3,21 @@ import styled, { css } from "styled-components";
 import { TaskType, PriorityType } from "types";
 
 const TaskContainer = styled.div<{ $priority: PriorityType }>`
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  margin-top: 10px;
+  width: 200px;
+  max-width: 200px;
+  min-height: 220px;
+  max-height: 220px;
+  overflow: auto;
+  margin-bottom: 10px;
+  margin-right:10px;
+  padding: 10px 5px;
+  border-radius: 16px;
   background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  box-shadow: rgba(162, 162, 162, 0.45) 0px 25px 20px -20px;
+  @media (max-width: 768px) {
+    width:  300px;
+    max-width: 300px;
+  }
 
   ${(props) =>
     props.$priority === PriorityType.Low &&
@@ -27,9 +35,14 @@ const TaskContainer = styled.div<{ $priority: PriorityType }>`
       border-left: 5px solid rgb(204, 68, 75);
     `}
 `;
-
+const TaskHeader = styled.div`
+width: 100%;
+text-align:right;
+margin-bottom: 10px;
+`
 const TaskTitleWrapper = styled.div`
 flex: 1;
+flex-grow:1;
 padding: 0 8px;
 `
 
@@ -37,7 +50,7 @@ const TaskText = styled.div`
 `;
 
 const TaskDescription = styled.span`
-  font-size: 10px;
+  font-size: 12px;
 `;
 
 const PriorityLabel = styled.span<{ priority: PriorityType }>`
@@ -72,6 +85,16 @@ const TaskInput = styled.input`
   border-radius: 4px;
 `;
 
+const TaskInputDescription = styled.textarea`
+flex: 1;
+padding: 8px;
+border: 1px solid #ddd;
+border-radius: 4px;
+margin-bottom: 20px;
+font-family: inherit;
+font-size: 12px;
+`;
+
 const Button = styled.button<{ color: string; }>`
   margin-left: 8px;
   padding: 5px 8px;
@@ -89,7 +112,7 @@ const Button = styled.button<{ color: string; }>`
 
 interface TaskProps {
   task: TaskType;
-  updateTask: (id: number, newTitle: string, newDescription: string) => void;
+  updateTask: (id: number, updatedTask: any) => void;
   deleteTask: (id: number) => void;
 }
 
@@ -99,7 +122,13 @@ const Task: React.FC<TaskProps> = ({ task, updateTask, deleteTask }) => {
   const [newDescription, setNewDescription] = useState(task.description);
 
   const handleUpdate = () => {
-    updateTask(task.id, newTitle, newDescription);
+    const updatedTask = {
+      id: task.id,
+      title: newTitle,
+      description: newDescription,
+      priority: task.priority
+    }
+    updateTask(task.id, updatedTask);
     setEditing(false);
   };
 
@@ -111,7 +140,7 @@ const Task: React.FC<TaskProps> = ({ task, updateTask, deleteTask }) => {
             value={newTitle}
             onChange={(e) => setNewTitle(e.target.value)}
           />
-          <TaskInput
+          <TaskInputDescription
             value={newDescription}
             onChange={(e) => setNewDescription(e.target.value)}
           />
@@ -121,6 +150,15 @@ const Task: React.FC<TaskProps> = ({ task, updateTask, deleteTask }) => {
         </>
       ) : (
         <>
+          <TaskHeader>
+            <Button color="#504B43" onClick={() => setEditing(true)}>
+              Edit
+            </Button>
+            <Button color="#CC444B" onClick={() => deleteTask(task.id)}>
+              Delete
+            </Button>
+          </TaskHeader>
+
           <TaskTitleWrapper>
             <TaskText>{task.title}</TaskText>
             <TaskDescription>{task.description}</TaskDescription>
@@ -128,12 +166,7 @@ const Task: React.FC<TaskProps> = ({ task, updateTask, deleteTask }) => {
               {PriorityType[task.priority]}
             </PriorityLabel>
           </TaskTitleWrapper>
-          <Button color="#504B43" onClick={() => setEditing(true)}>
-            Edit
-          </Button>
-          <Button color="#CC444B" onClick={() => deleteTask(task.id)}>
-            Delete
-          </Button>
+
         </>
       )}
     </TaskContainer>
