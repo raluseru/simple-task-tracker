@@ -8,8 +8,8 @@ const TaskContainer = styled.div<{ $priority: PriorityType }>`
   min-height: 220px;
   max-height: 220px;
   overflow-y: auto;
-display: flex;
-flex-direction: column;
+  display: flex;
+  flex-direction: column;
   margin-bottom: 10px;
   margin-left:10px;
   padding: 10px 5px;
@@ -19,6 +19,13 @@ flex-direction: column;
   @media (max-width: 768px) {
     width:  300px;
     max-width: 300px;
+  }
+
+  &:hover {
+    button {
+      visibility: visible;
+      opacity: 1;
+    }
   }
 
   ${(props) =>
@@ -107,7 +114,8 @@ const Button = styled.button<{ color: string; }>`
   color: white;
   border-radius: 4px;
   cursor: pointer;
-
+  visibility: hidden;
+  opacity: 1;
   &:hover {
     background-color: "#0056b3";
   }
