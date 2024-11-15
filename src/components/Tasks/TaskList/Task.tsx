@@ -51,13 +51,12 @@ padding: 0 8px;
 const TaskText = styled.div`
 `;
 
-const TaskDescription = styled.span`
+const TaskDescription = styled.p`
   font-size: 12px;
   word-wrap: break-word;
 `;
 
-const PriorityLabel = styled.span<{ priority: PriorityType }>`
-  margin-left: 8px;
+const PriorityLabel = styled.label<{ priority: PriorityType }>`
   font-size: 10px;
   color: #fff;
   padding:4px 8px;
@@ -97,8 +96,6 @@ border-radius: 4px;
 margin-bottom: 20px;
 font-family: inherit;
 font-size: 12px;
-
-width: 100%;
 resize: vertical; 
 `;
 

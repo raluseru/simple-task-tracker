@@ -22,7 +22,6 @@ margin-bottom: 10px;
 font-family: inherit;
 font-size: 12px;
 max-width: 320px;
-width: 100%;
 resize: vertical; 
 `;
 
