@@ -1,17 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { PriorityType } from "types";
-
-interface AddTaskProps {
-  title: string;
-  description?: string,
-  priority: PriorityType.Low | PriorityType.Medium | PriorityType.High,
-  onNameChange: (title: string) => void,
-  onDescriptionChange: (description: string) => void,
-  onPriorityChange: (priority: PriorityType.Low | PriorityType.Medium | PriorityType.High) => void,
-  onSubmitForm: (e: any) => void;
-}
-
+import { useTaskContext } from "../../../context/TaskContext";
+import { TaskType } from "types"
 const Form = styled.form`
   display: flex;
   flex-direction: column;
@@ -61,31 +52,52 @@ const Button = styled.button`
   }
 `;
 
-const AddTask: React.FC<AddTaskProps> = ({ title, description, priority, onNameChange, onDescriptionChange, onPriorityChange, onSubmitForm }) => {
+const AddTask: React.FC = () => {
 
+  const { addTask } = useTaskContext();
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [priority, setPriority] = useState<PriorityType>(PriorityType.Low);
+  const handleAddTask = () => {
+    if (!title.trim() || !description.trim()) {
+      alert("Title and description are required.")
+      return
+    }
 
+    const newTask: TaskType = {
+      id: Date.now(), // Unique ID for the task
+      title,
+      description,
+      priority,
+    };
+
+    addTask(newTask)
+    setTitle("")
+    setDescription("");
+    setPriority(PriorityType.Low);
+  };
   return (
-    <Form onSubmit={onSubmitForm}>
+    <Form onSubmit={(e) => e.preventDefault()}>
       <Input
         type="text"
         value={title}
-        onChange={(e) => onNameChange(e.target.value)}
+        onChange={(e) => setTitle(e.target.value)}
         placeholder="Task Title"
       />
       <TaskInputDescription
         value={description}
-        onChange={(e) => onDescriptionChange(e.target.value)}
+        onChange={(e) => setDescription(e.target.value)}
         placeholder="Task Description"
       />
       <Select
         value={priority}
-        onChange={(e) => onPriorityChange(Number(e.target.value) as PriorityType)}
+        onChange={(e) => setPriority(Number(e.target.value))}
       >
         <option value={PriorityType.Low}>Low priority</option>
         <option value={PriorityType.Medium}>Medium priority</option>
         <option value={PriorityType.High}>High priority</option>
       </Select>
-      <Button type="submit">Add Task</Button>
+      <Button onClick={handleAddTask}>Add Task</Button>
     </Form>
   );
 };

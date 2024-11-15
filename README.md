@@ -4,7 +4,8 @@ This project aims to create a list of editable tasks with a priority filter
 
 ![Preview image.](src/assets/preview.png "Preview")
 ## Brief overview
-The project structure contains an assets and a components folder. In the components folder, all the React main components are grouped, containing 2 other folders: Filter and Tasks. Each folder is structured so that it contains the tsx file and the test file.
+The project structure contains the following folders: assets, components,context and services. In the components folder, all the React main components are grouped, containing 2 other folders: Filter and Tasks. Each folder is structured so that it contains the tsx file and the test file.
+The state is handled in a separate file TaskContext.tsx with useContext which allows the components wrapped in TaskProvider to access all the necessary values.
 All reusable types are found in the src folder > types.ts.  
 Rules for eslint are to be added in root > eslintrc.json.
 

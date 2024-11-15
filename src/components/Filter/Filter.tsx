@@ -22,15 +22,14 @@ const Label = styled.label`
 `;
 
 interface FilterProps {
-  filter: "all" | PriorityType.Low | PriorityType.Medium | PriorityType.High;
   onChange: (filter: "all" | PriorityType.Low | PriorityType.Medium | PriorityType.High) => void;
 }
 
-const Filter: React.FC<FilterProps> = ({ filter, onChange }) => {
+const Filter: React.FC<FilterProps> = ({ onChange }) => {
   return (
     <FilterContainer>
       <Label>Filter by Priority: </Label>
-      <Select value={filter} onChange={(e) => onChange(e.target.value as "all" | PriorityType.Low | PriorityType.Medium | PriorityType.High)}>
+      <Select onChange={(e) => onChange(e.target.value as "all" | PriorityType.Low | PriorityType.Medium | PriorityType.High)}>
         <option value="all">All</option>
         <option value={PriorityType.Low}>Low</option>
         <option value={PriorityType.Medium}>Medium</option>

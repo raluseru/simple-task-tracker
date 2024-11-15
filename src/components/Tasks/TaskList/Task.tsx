@@ -112,7 +112,7 @@ const Button = styled.button<{ color: string; }>`
 
 interface TaskProps {
   task: TaskType;
-  updateTask: (id: number, newTitle: string, newDescription: string) => void;
+  updateTask: (id: number, updatedTask: any) => void;
   deleteTask: (id: number) => void;
 }
 
@@ -122,7 +122,13 @@ const Task: React.FC<TaskProps> = ({ task, updateTask, deleteTask }) => {
   const [newDescription, setNewDescription] = useState(task.description);
 
   const handleUpdate = () => {
-    updateTask(task.id, newTitle, newDescription);
+    const updatedTask = {
+      id: task.id,
+      title: newTitle,
+      description: newDescription,
+      priority: task.priority
+    }
+    updateTask(task.id, updatedTask);
     setEditing(false);
   };
 
